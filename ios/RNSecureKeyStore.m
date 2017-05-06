@@ -66,6 +66,22 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
     return NO;
 }
 
+- (BOOL)updateKeychainValue:(NSString *)password forIdentifier:(NSString *)identifier {
+
+    NSMutableDictionary *searchDictionary = [self newSearchDictionary:identifier];
+    NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] init];
+    NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
+    [updateDictionary setObject:passwordData forKey:(id)kSecValueData];
+
+    OSStatus status = SecItemUpdate((CFDictionaryRef)searchDictionary,
+                                    (CFDictionaryRef)updateDictionary);
+
+    if (status == errSecSuccess) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)deleteKeychainValue:(NSString *)identifier {
     NSMutableDictionary *searchDictionary = [self newSearchDictionary:identifier];
     SecItemDelete((CFDictionaryRef)searchDictionary);
@@ -86,7 +102,12 @@ RCT_EXPORT_METHOD(set:(NSString *)key value:(NSString *)value
         if (status) {
             resolve(@"key stored successfully");
         } else {
-            reject(@"no_events", @"Not able to save key", secureKeyStoreError(@"Not able to save key"));
+            BOOL status = [self updateKeychainValue: value forIdentifier: key];
+            if (status) {
+                resolve(@"key updated successfully");
+            } else {
+                reject(@"no_events", @"Not able to save key", secureKeyStoreError(@"Not able to save key"));
+            }
         }
     }
     @catch (NSException *exception) {
