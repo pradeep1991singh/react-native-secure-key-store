@@ -41,7 +41,7 @@ $ react-native link react-native-secure-key-store
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-      compile project(':react-native-secure-key-store')
+    compile project(':react-native-secure-key-store')
   	```
 
 ## Usage
