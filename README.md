@@ -1,6 +1,8 @@
 
 # react-native-secure-key-store
 
+React Native Library for securely storing keys to iOS and Android devices in KeyChain and KeyStore respectively
+
 ## Getting started
 
 `$ npm install react-native-secure-key-store --save`
@@ -34,20 +36,42 @@
       compile project(':react-native-secure-key-store')
   	```
 
-#### Windows
-[Read it! :D](https://github.com/ReactWindows/react-native)
-
-1. In Visual Studio add the `RNSecureKeyStore.sln` in `node_modules/react-native-secure-key-store/windows/RNSecureKeyStore.sln` folder to their solution, reference from their app.
-2. Open up your `MainPage.cs` app
-  - Add `using Com.Reactlibrary.RNSecureKeyStore;` to the usings at the top of the file
-  - Add `new RNSecureKeyStorePackage()` to the `List<IReactPackage>` returned by the `Packages` method
-
-
 ## Usage
 ```javascript
 import RNSecureKeyStore from 'react-native-secure-key-store';
 
-// TODO: What to do with the module?
-RNSecureKeyStore;
+// For storing key
+RNSecureKeyStore.set("key1", "value1")
+	.then((res) => {
+		console.log(res);
+	}, (err) => {
+		console.log(err);
+	});
+
+// For retrieving key
+RNSecureKeyStore.get("key1")
+	.then((res) => {
+		console.log(res);
+	}, (err) => {
+		console.log(err);
+	});
+
+// For removing key
+RNSecureKeyStore.remove("key1")
+	.then((res) => {
+		console.log(res);
+	}, (err) => {
+		console.log(err);
+	});		
 ```
+- For more, checkout example directory.
+
+## License
+
+ISC License (ISC)
+Copyright (c) 2016 pradeep singh
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   
