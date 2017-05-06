@@ -69,7 +69,7 @@ RNSecureKeyStore.remove("key1")
 		console.log(err);
 	});		
 ```
-- For more, checkout example directory.
+- For demo app, checkout example directory.
 
 ## License
 
