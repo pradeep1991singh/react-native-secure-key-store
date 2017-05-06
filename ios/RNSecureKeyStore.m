@@ -15,7 +15,7 @@
 }
 RCT_EXPORT_MODULE()
 
-static NSString *serviceName = @"com.mycompany.RNSecureKeyStorage";
+static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
 
 - (NSMutableDictionary *)newSearchDictionary:(NSString *)identifier {
     NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];

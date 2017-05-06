@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.reactlibrary.securekeystore;
 
 // Helper function for storing keys to internal storage.
 

@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.reactlibrary.securekeystore;
 
 // Secure key store helper class, contains constants used for encrypting/decrypting data on Android.
 

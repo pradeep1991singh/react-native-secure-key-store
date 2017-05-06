@@ -4,7 +4,7 @@
  * Ref: cordova-plugin-secure-key-store
  */
 
-package com.reactlibrary;
+package com.reactlibrary.securekeystore;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
