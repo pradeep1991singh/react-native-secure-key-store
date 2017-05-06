@@ -45,7 +45,7 @@ export default class example extends Component {
          console.log(err);
        });
 
-     RNSecureKeyStore.remove("key2")
+     RNSecureKeyStore.remove("key1")
        .then((res) => {
          console.log(res);
        }, (err) => {
