@@ -5,15 +5,19 @@ React Native Library for securely storing keys to iOS and Android devices in Key
 
 ## Getting started
 
-`$ npm install react-native-secure-key-store --save`
+```sh
+$ npm install react-native-secure-key-store --save
 
 or
 
-`$ yarn add react-native-secure-key-store --save`
+$ yarn add react-native-secure-key-store --save
+```
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-secure-key-store`
+```sh
+$ react-native link react-native-secure-key-store
+```
 
 ### Manual installation
 
