@@ -5,9 +5,9 @@
  */
 
 #import "React/RCTUtils.h"
-#import "RNSecureKeyStorage.h"
+#import "RNSecureKeyStore.h"
 
-@implementation RNSecureKeyStorage
+@implementation RNSecureKeyStore
 
 - (dispatch_queue_t)methodQueue
 {

@@ -8,6 +8,6 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
-@interface RNSecureKeyStorage : NSObject <RCTBridgeModule>
+@interface RNSecureKeyStore : NSObject <RCTBridgeModule>
 
 @end
