@@ -7,9 +7,10 @@ React Native Library for securely storing keys to iOS and Android devices in Key
 
 ```sh
 $ npm install react-native-secure-key-store --save
-
+```
 or
 
+```sh
 $ yarn add react-native-secure-key-store --save
 ```
 
