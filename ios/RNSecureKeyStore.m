@@ -87,6 +87,28 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
     SecItemDelete((CFDictionaryRef)searchDictionary);
 }
 
+- (void)clearSecureKeyStore
+{
+    NSArray *secItemClasses = @[(__bridge id)kSecClassGenericPassword,
+                        (__bridge id)kSecAttrGeneric,
+                        (__bridge id)kSecAttrAccount,
+                        (__bridge id)kSecClassKey,
+                        (__bridge id)kSecAttrService];
+    for (id secItemClass in secItemClasses) {
+        NSDictionary *spec = @{(__bridge id)kSecClass: secItemClass};
+        SecItemDelete((__bridge CFDictionaryRef)spec);
+    }
+}
+
+- (void)handleAppUninstallation
+{
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"RnSksIsAppInstalled"]) {
+        [self clearSecureKeyStore];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RnSksIsAppInstalled"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
 NSError * secureKeyStoreError(NSString *errMsg)
 {
     NSError *error = [NSError errorWithDomain:serviceName code:200 userInfo:@{@"Error reason": errMsg}];
@@ -98,6 +120,7 @@ RCT_EXPORT_METHOD(set:(NSString *)key value:(NSString *)value
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try {
+        [self handleAppUninstallation];
         BOOL status = [self createKeychainValue: value forIdentifier: key];
         if (status) {
             resolve(@"key stored successfully");
@@ -120,6 +143,7 @@ RCT_EXPORT_METHOD(get:(NSString *)key
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try {
+        [self handleAppUninstallation];
         NSString *value = [self searchKeychainCopyMatching:key];
         if (value == nil) {
             reject(@"no_events", @"Not able to find key", secureKeyStoreError(@"Not able to find key"));
