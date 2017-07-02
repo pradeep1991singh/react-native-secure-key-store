@@ -60,9 +60,12 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
         end.add(Calendar.YEAR, 1);
-        KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext()).setAlias(alias)
-            .setSubject(new X500Principal("CN=" + alias)).setSerialNumber(BigInteger.ONE).setStartDate(start.getTime())
-            .setEndDate(end.getTime()).build();
+        KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext())
+                                        .setAlias(alias)
+                                        .setSubject(new X500Principal("CN=" + alias))
+                                        .setSerialNumber(BigInteger.ONE)
+                                        .setStartDate(start.getTime())
+                                        .setEndDate(end.getTime()).build();
 
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", getKeyStore());
         generator.initialize(spec);
@@ -94,7 +97,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
     } catch (Exception e) {
       Log.e(Constants.TAG, "Exception: " + e.getMessage());
-      promise.reject("Api-level:" + Build.VERSION.SDK_INT + "\nException: " + e.getMessage());
+      promise.reject("{\"code\":9,\"api-level\":" + Build.VERSION.SDK_INT + ",\"message\":" + e.getMessage() + "}");
     }
 
   }
@@ -111,7 +114,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       Cipher output = Cipher.getInstance(Constants.RSA_ALGORITHM);
       output.init(Cipher.DECRYPT_MODE, privateKey);
       CipherInputStream cipherInputStream = new CipherInputStream(
-          new ByteArrayInputStream(KeyStorage.readValues(getContext(), alias)), output);
+              new ByteArrayInputStream(KeyStorage.readValues(getContext(), alias)), output);
 
       ArrayList<Byte> values = new ArrayList<Byte>();
       int nextByte;
@@ -128,7 +131,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
     } catch (Exception e) {
       Log.e(Constants.TAG, "Exception: " + e.getMessage());
-      promise.reject("Api-level:" + Build.VERSION.SDK_INT + "\nException: " + e.getMessage());
+      promise.reject("{\"code\":1,\"api-level\":" + Build.VERSION.SDK_INT + ",\"message\":" + e.getMessage() + "}");
     }
   }
 
@@ -141,7 +144,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
     } catch (Exception e) {
       Log.e(Constants.TAG, "Exception: " + e.getMessage());
-      promise.reject("Api-level:" + Build.VERSION.SDK_INT + "\nException: " + e.getMessage());
+      promise.reject("{\"code\":6,\"api-level\":" + Build.VERSION.SDK_INT + ",\"message\":" + e.getMessage() + "}");
     }
   }
 

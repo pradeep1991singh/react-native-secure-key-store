@@ -82,9 +82,13 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
     return NO;
 }
 
-- (void)deleteKeychainValue:(NSString *)identifier {
+- (BOOL)deleteKeychainValue:(NSString *)identifier {
     NSMutableDictionary *searchDictionary = [self newSearchDictionary:identifier];
-    SecItemDelete((CFDictionaryRef)searchDictionary);
+    OSStatus status = SecItemDelete((CFDictionaryRef)searchDictionary);
+    if (status == errSecSuccess) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)clearSecureKeyStore
@@ -111,7 +115,7 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
 
 NSError * secureKeyStoreError(NSString *errMsg)
 {
-    NSError *error = [NSError errorWithDomain:serviceName code:200 userInfo:@{@"Error reason": errMsg}];
+    NSError *error = [NSError errorWithDomain:serviceName code:200 userInfo:@{@"reason": errMsg}];
     return error;
 }
 
@@ -129,12 +133,14 @@ RCT_EXPORT_METHOD(set:(NSString *)key value:(NSString *)value
             if (status) {
                 resolve(@"key updated successfully");
             } else {
-                reject(@"no_events", @"Not able to save key", secureKeyStoreError(@"Not able to save key"));
+                NSString* errorMessage = @"{\"message\":\"error saving key\"}";
+                reject(@"9", errorMessage, secureKeyStoreError(errorMessage));
             }
         }
     }
     @catch (NSException *exception) {
-        reject(@"no_events", @"Not able to save key", secureKeyStoreError(exception.reason));
+        NSString* errorMessage = [NSString stringWithFormat:@"{\"message\":\"error saving key, please try to un-install and re-install app again\",\"actual-error\":%@}", exception];
+        reject(@"9", errorMessage, secureKeyStoreError(errorMessage));
     }
 }
 
@@ -146,13 +152,15 @@ RCT_EXPORT_METHOD(get:(NSString *)key
         [self handleAppUninstallation];
         NSString *value = [self searchKeychainCopyMatching:key];
         if (value == nil) {
-            reject(@"no_events", @"Not able to find key", secureKeyStoreError(@"Not able to find key"));
+            NSString* errorMessage = @"{\"message\":\"key does not present\"}";
+            reject(@"1", errorMessage, secureKeyStoreError(errorMessage));
         } else {
             resolve(value);
         }
     }
     @catch (NSException *exception) {
-        reject(@"no_events", @"Not able to find key", secureKeyStoreError(exception.reason));
+        NSString* errorMessage = [NSString stringWithFormat:@"{\"message\":\"key does not present\",\"actual-error\":%@}", exception];
+        reject(@"1", errorMessage, secureKeyStoreError(errorMessage));
     }
 }
 
@@ -161,11 +169,17 @@ RCT_EXPORT_METHOD(remove:(NSString *)key
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try {
-        [self deleteKeychainValue:key];
-        resolve(@"key removed successfully");
+        BOOL status = [self deleteKeychainValue:key];
+        if (status) {
+            resolve(@"key removed successfully");
+        } else {
+            NSString* errorMessage = @"{\"message\":\"could not delete key\"}";
+            reject(@"6", errorMessage, secureKeyStoreError(errorMessage));
+        }
     }
     @catch(NSException *exception) {
-        reject(@"no_events", @"Could not remove key from keychain", secureKeyStoreError(exception.reason));
+        NSString* errorMessage = [NSString stringWithFormat:@"{\"message\":\"could not delete key\",\"actual-error\":%@}", exception];
+        reject(@"6", errorMessage, secureKeyStoreError(errorMessage));
     }
 }
 
