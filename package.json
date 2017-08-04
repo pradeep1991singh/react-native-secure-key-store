@@ -1,6 +1,6 @@
 {
   "name": "react-native-secure-key-store",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "React Native Library for securely storing keys to iOS and Android devices in KeyChain and KeyStore respectively.",
   "main": "index.js",
   "scripts": {
