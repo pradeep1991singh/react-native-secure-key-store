@@ -59,7 +59,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       if (!keyStore.containsAlias(alias)) {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
-        end.add(Calendar.YEAR, 1);
+        end.add(Calendar.YEAR, 50);
         KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext())
                                         .setAlias(alias)
                                         .setSubject(new X500Principal("CN=" + alias))
