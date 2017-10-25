@@ -13,4 +13,9 @@ public class Constants {
 
     // Internal storage file
     public static final String SKS_FILENAME = "SKS_KEY_FILE";
+    public static final String CHUNK_EXTENSION = ".chunk";
+    public static final String CHUNK_LENGTH_EXTENSION = ".chunklength";
+
+    // Android RSA plaintext byte length (per chunk)
+    public static final int MAX_PLAINTEXT_BYTE_LENGTH = 254;
 }
