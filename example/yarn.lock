@@ -2921,6 +2921,12 @@ react-devtools-core@^2.0.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-secure-key-store@../../react-native-secure-key-store:
+  version "1.0.6"
+
+"react-native-secure-key-store@file:..":
+  version "1.0.6"
+
 react-native@0.44.0:
   version "0.44.0"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.44.0.tgz#06427a30053f2d555c60fe0b9afcc6c778db09de"
