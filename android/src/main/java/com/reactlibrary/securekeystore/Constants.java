@@ -17,6 +17,4 @@ public class Constants {
     // Internal storage file
     public static final String SKS_KEY_FILENAME = "SKS_KEY_FILE";
     public static final String SKS_DATA_FILENAME = "SKS_DATA_FILE";
-
-    public static final int MAX_CIPHERTEXT_CHUNK_LENGTH = 128;
 }
