@@ -72,12 +72,9 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       Calendar start = Calendar.getInstance();
       Calendar end = Calendar.getInstance();
       end.add(Calendar.YEAR, 50);
-      KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext())
-              .setAlias(alias)
-              .setSubject(new X500Principal("CN=" + alias))
-              .setSerialNumber(BigInteger.ONE)
-              .setStartDate(start.getTime())
-              .setEndDate(end.getTime()).build();
+      KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext()).setAlias(alias)
+          .setSubject(new X500Principal("CN=" + alias)).setSerialNumber(BigInteger.ONE).setStartDate(start.getTime())
+          .setEndDate(end.getTime()).build();
 
       KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", getKeyStore());
       generator.initialize(spec);
@@ -89,13 +86,15 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     return keyStore.getCertificate(alias).getPublicKey();
   }
 
-  private byte[] encryptRsaPlainText(PublicKey publicKey, byte[] plainTextBytes) throws GeneralSecurityException, IOException {
+  private byte[] encryptRsaPlainText(PublicKey publicKey, byte[] plainTextBytes)
+      throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.RSA_ALGORITHM);
     cipher.init(Cipher.ENCRYPT_MODE, publicKey);
     return encryptCipherText(cipher, plainTextBytes);
   }
 
-  private byte[] encryptAesPlainText(SecretKey secretKey, String plainText) throws GeneralSecurityException, IOException {
+  private byte[] encryptAesPlainText(SecretKey secretKey, String plainText)
+      throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.AES_ALGORITHM);
     cipher.init(Cipher.ENCRYPT_MODE, secretKey);
     return encryptCipherText(cipher, plainText);
@@ -125,13 +124,8 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       SecretKey secretKey = keyGenerator.generateKey();
       PublicKey publicKey = getOrCreatePublicKey(alias);
 
-
-      //TODO: develop only
-      Log.d(Constants.TAG, "saving secret key: " + new String(secretKey.getEncoded(), "UTF-8"));
-
-
       Storage.writeValues(getContext(), Constants.SKS_KEY_FILENAME + alias,
-        encryptRsaPlainText(publicKey, secretKey.getEncoded()));
+          encryptRsaPlainText(publicKey, secretKey.getEncoded()));
 
       Log.i(Constants.TAG, "created new symmetric keys for alias");
       return secretKey;
@@ -140,7 +134,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   private void setCipherText(String alias, String input) throws GeneralSecurityException, IOException {
     Storage.writeValues(getContext(), Constants.SKS_DATA_FILENAME + alias,
-      encryptAesPlainText(getOrCreateSecretKey(alias), input));
+        encryptAesPlainText(getOrCreateSecretKey(alias), input));
   }
 
   @ReactMethod
@@ -160,13 +154,15 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     return (PrivateKey) keyStore.getKey(alias, null);
   }
 
-  private byte[] decryptRsaCipherText(PrivateKey privateKey, byte[] cipherTextBytes) throws GeneralSecurityException, IOException {
+  private byte[] decryptRsaCipherText(PrivateKey privateKey, byte[] cipherTextBytes)
+      throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.RSA_ALGORITHM);
     cipher.init(Cipher.DECRYPT_MODE, privateKey);
     return decryptCipherText(cipher, cipherTextBytes);
   }
 
-  private byte[] decryptAesCipherText(SecretKey secretKey, byte[] cipherTextBytes) throws GeneralSecurityException, IOException {
+  private byte[] decryptAesCipherText(SecretKey secretKey, byte[] cipherTextBytes)
+      throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.AES_ALGORITHM);
     cipher.init(Cipher.DECRYPT_MODE, secretKey);
     return decryptCipherText(cipher, cipherTextBytes);
@@ -187,10 +183,6 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   private SecretKey getSymmetricKey(String alias) throws GeneralSecurityException, IOException {
     byte[] cipherTextBytes = Storage.readValues(getContext(), Constants.SKS_KEY_FILENAME + alias);
-
-    //TODO: develop only
-    Log.d(Constants.TAG, "reading secret key: " + new String(decryptRsaCipherText(getPrivateKey(alias), cipherTextBytes), "UTF-8"));
-
     return new SecretKeySpec(decryptRsaCipherText(getPrivateKey(alias), cipherTextBytes), Constants.AES_ALGORITHM);
   }
 
@@ -202,10 +194,8 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void remove(String alias, Promise promise) {
-    Storage.resetValues(getContext(), new String[]{
-      Constants.SKS_DATA_FILENAME + alias,
-      Constants.SKS_KEY_FILENAME + alias,
-    });
+    Storage.resetValues(getContext(),
+        new String[] { Constants.SKS_DATA_FILENAME + alias, Constants.SKS_KEY_FILENAME + alias, });
     promise.resolve("cleared alias");
   }
 
