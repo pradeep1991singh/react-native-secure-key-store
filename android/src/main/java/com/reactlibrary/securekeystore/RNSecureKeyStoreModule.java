@@ -72,9 +72,13 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       Calendar start = Calendar.getInstance();
       Calendar end = Calendar.getInstance();
       end.add(Calendar.YEAR, 50);
-      KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext()).setAlias(alias)
-          .setSubject(new X500Principal("CN=" + alias)).setSerialNumber(BigInteger.ONE).setStartDate(start.getTime())
-          .setEndDate(end.getTime()).build();
+      KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext())
+          .setAlias(alias)
+          .setSubject(new X500Principal("CN=" + alias))
+          .setSerialNumber(BigInteger.ONE)
+          .setStartDate(start.getTime())
+          .setEndDate(end.getTime())
+          .build();
 
       KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", getKeyStore());
       generator.initialize(spec);
@@ -86,15 +90,13 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     return keyStore.getCertificate(alias).getPublicKey();
   }
 
-  private byte[] encryptRsaPlainText(PublicKey publicKey, byte[] plainTextBytes)
-      throws GeneralSecurityException, IOException {
+  private byte[] encryptRsaPlainText(PublicKey publicKey, byte[] plainTextBytes) throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.RSA_ALGORITHM);
     cipher.init(Cipher.ENCRYPT_MODE, publicKey);
     return encryptCipherText(cipher, plainTextBytes);
   }
 
-  private byte[] encryptAesPlainText(SecretKey secretKey, String plainText)
-      throws GeneralSecurityException, IOException {
+  private byte[] encryptAesPlainText(SecretKey secretKey, String plainText) throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.AES_ALGORITHM);
     cipher.init(Cipher.ENCRYPT_MODE, secretKey);
     return encryptCipherText(cipher, plainText);
@@ -154,15 +156,13 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     return (PrivateKey) keyStore.getKey(alias, null);
   }
 
-  private byte[] decryptRsaCipherText(PrivateKey privateKey, byte[] cipherTextBytes)
-      throws GeneralSecurityException, IOException {
+  private byte[] decryptRsaCipherText(PrivateKey privateKey, byte[] cipherTextBytes) throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.RSA_ALGORITHM);
     cipher.init(Cipher.DECRYPT_MODE, privateKey);
     return decryptCipherText(cipher, cipherTextBytes);
   }
 
-  private byte[] decryptAesCipherText(SecretKey secretKey, byte[] cipherTextBytes)
-      throws GeneralSecurityException, IOException {
+  private byte[] decryptAesCipherText(SecretKey secretKey, byte[] cipherTextBytes) throws GeneralSecurityException, IOException {
     Cipher cipher = Cipher.getInstance(Constants.AES_ALGORITHM);
     cipher.init(Cipher.DECRYPT_MODE, secretKey);
     return decryptCipherText(cipher, cipherTextBytes);
@@ -194,8 +194,10 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void remove(String alias, Promise promise) {
-    Storage.resetValues(getContext(),
-        new String[] { Constants.SKS_DATA_FILENAME + alias, Constants.SKS_KEY_FILENAME + alias, });
+    Storage.resetValues(getContext(), new String[] { 
+      Constants.SKS_DATA_FILENAME + alias, 
+      Constants.SKS_KEY_FILENAME + alias, 
+    });
     promise.resolve("cleared alias");
   }
 
