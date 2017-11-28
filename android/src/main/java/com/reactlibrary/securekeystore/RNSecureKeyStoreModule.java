@@ -143,7 +143,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       promise.resolve(getPlainText(alias));
     } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-      promise.reject("{\"code\":404,\"api-level\":" + Build.VERSION.SDK_INT + ",\"message\":" + fnfe.getMessage() + "}");
+      promise.reject("404", "{\"code\":404,\"api-level\":" + Build.VERSION.SDK_INT + ",\"message\":" + fnfe.getMessage() + "}", fnfe);
     } catch (Exception e) {
       e.printStackTrace();
       Log.e(Constants.TAG, "Exception: " + e.getMessage());
