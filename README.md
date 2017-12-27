@@ -11,7 +11,7 @@ $ npm install react-native-secure-key-store --save
 or
 
 ```sh
-$ yarn add react-native-secure-key-store --save
+$ yarn add react-native-secure-key-store
 ```
 
 ### Mostly automatic installation
