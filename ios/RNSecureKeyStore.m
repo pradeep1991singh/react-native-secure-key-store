@@ -153,7 +153,7 @@ RCT_EXPORT_METHOD(get:(NSString *)key
         NSString *value = [self searchKeychainCopyMatching:key];
         if (value == nil) {
             NSString* errorMessage = @"{\"message\":\"key does not present\"}";
-            reject(@"1", errorMessage, secureKeyStoreError(errorMessage));
+            reject(@"404", errorMessage, secureKeyStoreError(errorMessage));
         } else {
             resolve(value);
         }

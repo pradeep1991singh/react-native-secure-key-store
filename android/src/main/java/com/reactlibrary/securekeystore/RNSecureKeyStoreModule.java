@@ -66,7 +66,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     KeyStore keyStore = KeyStore.getInstance(getKeyStore());
     keyStore.load(null);
 
-    if (!keyStore.containsAlias(alias)) {
+    if (!keyStore.containsAlias(alias) || keyStore.getCertificate(alias) == null) {
       Log.i(Constants.TAG, "no existing asymmetric keys for alias");
 
       Calendar start = Calendar.getInstance();
@@ -125,7 +125,6 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       keyGenerator.init(256);
       SecretKey secretKey = keyGenerator.generateKey();
       PublicKey publicKey = getOrCreatePublicKey(alias);
-
       Storage.writeValues(getContext(), Constants.SKS_KEY_FILENAME + alias,
           encryptRsaPlainText(publicKey, secretKey.getEncoded()));
 
@@ -143,6 +142,9 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
   public void get(String alias, Promise promise) {
     try {
       promise.resolve(getPlainText(alias));
+    } catch (FileNotFoundException fnfe) {
+      fnfe.printStackTrace();
+      promise.reject("404", "{\"code\":404,\"api-level\":" + Build.VERSION.SDK_INT + ",\"message\":" + fnfe.getMessage() + "}", fnfe);
     } catch (Exception e) {
       e.printStackTrace();
       Log.e(Constants.TAG, "Exception: " + e.getMessage());
