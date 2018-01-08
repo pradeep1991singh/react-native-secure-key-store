@@ -66,7 +66,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     KeyStore keyStore = KeyStore.getInstance(getKeyStore());
     keyStore.load(null);
 
-    if (!keyStore.containsAlias(alias)) {
+    if (!keyStore.containsAlias(alias) || keyStore.getCertificate(alias) == null) {
       Log.i(Constants.TAG, "no existing asymmetric keys for alias");
 
       Calendar start = Calendar.getInstance();
