@@ -11,7 +11,7 @@ $ npm install react-native-secure-key-store --save
 or
 
 ```sh
-$ yarn add react-native-secure-key-store --save
+$ yarn add react-native-secure-key-store
 ```
 
 ### Mostly automatic installation
@@ -33,7 +33,7 @@ $ react-native link react-native-secure-key-store
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNSecureKeyStorePackage;` to the imports at the top of the file
+  - Add `import com.reactlibrary.securekeystore.RNSecureKeyStorePackage;` to the imports at the top of the file
   - Add `new RNSecureKeyStorePackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```

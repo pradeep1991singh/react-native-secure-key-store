@@ -21,10 +21,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pradeep1991singh/react-native-secure-key-store.git"
+    "url":
+      "git+https://github.com/pradeep1991singh/react-native-secure-key-store.git"
   },
   "bugs": {
-    "url": "https://github.com/pradeep1991singh/react-native-secure-key-store/issues"
+    "url":
+      "https://github.com/pradeep1991singh/react-native-secure-key-store/issues"
   },
-  "homepage": "https://github.com/pradeep1991singh/react-native-secure-key-store#readme"
+  "homepage":
+    "https://github.com/pradeep1991singh/react-native-secure-key-store#readme"
 }

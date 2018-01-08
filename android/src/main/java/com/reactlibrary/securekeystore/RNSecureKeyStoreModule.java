@@ -73,11 +73,12 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       Calendar end = Calendar.getInstance();
       end.add(Calendar.YEAR, 50);
       KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(getContext())
-              .setAlias(alias)
-              .setSubject(new X500Principal("CN=" + alias))
-              .setSerialNumber(BigInteger.ONE)
-              .setStartDate(start.getTime())
-              .setEndDate(end.getTime()).build();
+          .setAlias(alias)
+          .setSubject(new X500Principal("CN=" + alias))
+          .setSerialNumber(BigInteger.ONE)
+          .setStartDate(start.getTime())
+          .setEndDate(end.getTime())
+          .build();
 
       KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", getKeyStore());
       generator.initialize(spec);
@@ -125,7 +126,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       SecretKey secretKey = keyGenerator.generateKey();
       PublicKey publicKey = getOrCreatePublicKey(alias);
       Storage.writeValues(getContext(), Constants.SKS_KEY_FILENAME + alias,
-        encryptRsaPlainText(publicKey, secretKey.getEncoded()));
+          encryptRsaPlainText(publicKey, secretKey.getEncoded()));
 
       Log.i(Constants.TAG, "created new symmetric keys for alias");
       return secretKey;
@@ -134,7 +135,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   private void setCipherText(String alias, String input) throws GeneralSecurityException, IOException {
     Storage.writeValues(getContext(), Constants.SKS_DATA_FILENAME + alias,
-      encryptAesPlainText(getOrCreateSecretKey(alias), input));
+        encryptAesPlainText(getOrCreateSecretKey(alias), input));
   }
 
   @ReactMethod
@@ -195,9 +196,9 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void remove(String alias, Promise promise) {
-    Storage.resetValues(getContext(), new String[]{
-      Constants.SKS_DATA_FILENAME + alias,
-      Constants.SKS_KEY_FILENAME + alias,
+    Storage.resetValues(getContext(), new String[] { 
+      Constants.SKS_DATA_FILENAME + alias, 
+      Constants.SKS_KEY_FILENAME + alias, 
     });
     promise.resolve("cleared alias");
   }
