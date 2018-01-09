@@ -76,6 +76,11 @@ RNSecureKeyStore.remove("key1")
 ```
 - For demo app, checkout example directory.
 
+## Testing
+
+For Testing using Jest, add RNSecureKeyStoreMock implementation under your __test__/__mocks__ folder.
+This mock implementation makes easy for you to make testing that dependes on react-native-secure-key-store
+
 ## License
 
 ISC License (ISC)
