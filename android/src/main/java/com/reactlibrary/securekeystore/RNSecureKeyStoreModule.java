@@ -27,6 +27,8 @@ import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Calendar;
+import android.support.annotation.Nullable;
+import com.facebook.react.bridge.ReadableMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -51,7 +53,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void set(String alias, String input, Promise promise) {
+  public void set(String alias, String input, @Nullable ReadableMap options, Promise promise) {
     try {
       setCipherText(alias, input);
       promise.resolve("stored ciphertext in app storage");

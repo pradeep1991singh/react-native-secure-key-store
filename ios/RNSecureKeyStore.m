@@ -52,12 +52,14 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
     return value;
 }
 
-- (BOOL)createKeychainValue:(NSString *)value forIdentifier:(NSString *)identifier {
+- (BOOL)createKeychainValue:(NSString *)value forIdentifier:(NSString *)identifier options: (NSDictionary * __nullable)options {
+    CFStringRef accessible = accessibleValue(options);
     NSMutableDictionary *dictionary = [self newSearchDictionary:identifier];
 
     NSData *valueData = [value dataUsingEncoding:NSUTF8StringEncoding];
     [dictionary setObject:valueData forKey:(id)kSecValueData];
-
+    dictionary[(__bridge NSString *)kSecAttrAccessible] = (__bridge id)accessible;
+    
     OSStatus status = SecItemAdd((CFDictionaryRef)dictionary, NULL);
 
     if (status == errSecSuccess) {
@@ -66,13 +68,14 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
     return NO;
 }
 
-- (BOOL)updateKeychainValue:(NSString *)password forIdentifier:(NSString *)identifier {
+- (BOOL)updateKeychainValue:(NSString *)password forIdentifier:(NSString *)identifier options:(NSDictionary * __nullable)options {
 
+    CFStringRef accessible = accessibleValue(options);
     NSMutableDictionary *searchDictionary = [self newSearchDictionary:identifier];
     NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] init];
     NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
     [updateDictionary setObject:passwordData forKey:(id)kSecValueData];
-
+    updateDictionary[(__bridge NSString *)kSecAttrAccessible] = (__bridge id)accessible;
     OSStatus status = SecItemUpdate((CFDictionaryRef)searchDictionary,
                                     (CFDictionaryRef)updateDictionary);
 
@@ -119,17 +122,18 @@ NSError * secureKeyStoreError(NSString *errMsg)
     return error;
 }
 
-RCT_EXPORT_METHOD(set:(NSString *)key value:(NSString *)value
+RCT_EXPORT_METHOD(set: (NSString *)key value:(NSString *)value
+                  options: (NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     @try {
         [self handleAppUninstallation];
-        BOOL status = [self createKeychainValue: value forIdentifier: key];
+        BOOL status = [self createKeychainValue: value forIdentifier: key options: options];
         if (status) {
             resolve(@"key stored successfully");
         } else {
-            BOOL status = [self updateKeychainValue: value forIdentifier: key];
+            BOOL status = [self updateKeychainValue: value forIdentifier: key options: options];
             if (status) {
                 resolve(@"key updated successfully");
             } else {
@@ -181,6 +185,26 @@ RCT_EXPORT_METHOD(remove:(NSString *)key
         NSString* errorMessage = [NSString stringWithFormat:@"{\"message\":\"could not delete key\",\"actual-error\":%@}", exception];
         reject(@"6", errorMessage, secureKeyStoreError(errorMessage));
     }
+}
+
+CFStringRef accessibleValue(NSDictionary *options)
+{
+  if (options && options[@"accessible"] != nil) {
+    NSDictionary *keyMap = @{
+      @"AccessibleWhenUnlocked": (__bridge NSString *)kSecAttrAccessibleWhenUnlocked,
+      @"AccessibleAfterFirstUnlock": (__bridge NSString *)kSecAttrAccessibleAfterFirstUnlock,
+      @"AccessibleAlways": (__bridge NSString *)kSecAttrAccessibleAlways,
+      @"AccessibleWhenPasscodeSetThisDeviceOnly": (__bridge NSString *)kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+      @"AccessibleWhenUnlockedThisDeviceOnly": (__bridge NSString *)kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+      @"AccessibleAfterFirstUnlockThisDeviceOnly": (__bridge NSString *)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+      @"AccessibleAlwaysThisDeviceOnly": (__bridge NSString *)kSecAttrAccessibleAlwaysThisDeviceOnly
+    };
+    NSString *result = keyMap[options[@"accessible"]];
+    if (result) {
+      return (__bridge CFStringRef)result;
+    }
+  }
+  return kSecAttrAccessibleAfterFirstUnlock;
 }
 
 @end
