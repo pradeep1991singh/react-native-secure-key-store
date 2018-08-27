@@ -48,10 +48,10 @@ $ react-native link react-native-secure-key-store
 ## Usage
 
 ```javascript
-import RNSecureKeyStore from 'react-native-secure-key-store';
+import RNSecureKeyStore, {ACCESSIBLE} from "react-native-secure-key-store";
 
 // For storing key
-RNSecureKeyStore.set("key1", "value1")
+RNSecureKeyStore.set("key1", "value1", {accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY})
 	.then((res) => {
 		console.log(res);
 	}, (err) => {
@@ -75,6 +75,24 @@ RNSecureKeyStore.remove("key1")
 	});		
 ```
 - For demo app, checkout example directory.
+
+## Options
+
+| Key | Platform | Description | Default |
+|---|---|---|---|
+|**`accessible`**|iOS only|This dictates when a keychain item is accessible, see possible values in `Keychain.ACCESSIBLE`. |*`Keychain.ACCESSIBLE.WHEN_UNLOCKED`*|
+
+### `Keychain.ACCESSIBLE` enum
+
+| Key | Description |
+|-----|-------------|
+|**`WHEN_UNLOCKED`**|The data in the keychain item can be accessed only while the device is unlocked by the user.|
+|**`AFTER_FIRST_UNLOCK`**|The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user.|
+|**`ALWAYS`**|The data in the keychain item can always be accessed regardless of whether the device is locked.|
+|**`WHEN_PASSCODE_SET_THIS_DEVICE_ONLY`**|The data in the keychain can only be accessed when the device is unlocked. Only available if a passcode is set on the device. Items with this attribute never migrate to a new device.|
+|**`WHEN_UNLOCKED_THIS_DEVICE_ONLY`**|The data in the keychain item can be accessed only while the device is unlocked by the user. Items with this attribute do not migrate to a new device.|
+|**`AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY`**|The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user. Items with this attribute never migrate to a new device.|
+|**`ALWAYS_THIS_DEVICE_ONLY`**|The data in the keychain item can always be accessed regardless of whether the device is locked. Items with this attribute never migrate to a new device.|
 
 ## Testing
 
