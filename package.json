@@ -1,6 +1,6 @@
 {
   "name": "react-native-secure-key-store",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "React Native Library for securely storing keys to iOS and Android devices in KeyChain and KeyStore respectively.",
   "main": "index.js",
   "scripts": {
@@ -21,13 +21,10 @@
   },
   "repository": {
     "type": "git",
-    "url":
-      "git+https://github.com/pradeep1991singh/react-native-secure-key-store.git"
+    "url": "git+https://github.com/pradeep1991singh/react-native-secure-key-store.git"
   },
   "bugs": {
-    "url":
-      "https://github.com/pradeep1991singh/react-native-secure-key-store/issues"
+    "url": "https://github.com/pradeep1991singh/react-native-secure-key-store/issues"
   },
-  "homepage":
-    "https://github.com/pradeep1991singh/react-native-secure-key-store#readme"
+  "homepage": "https://github.com/pradeep1991singh/react-native-secure-key-store#readme"
 }

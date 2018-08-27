@@ -12,19 +12,19 @@ import {
   View
 } from 'react-native';
 
-import RNSecureKeyStore from "react-native-secure-key-store";
+import RNSecureKeyStore, {ACCESSIBLE} from "react-native-secure-key-store";
 
 export default class example extends Component {
   render() {
 
-    RNSecureKeyStore.set("key1", "value1")
+    RNSecureKeyStore.set("key1", "value1", {accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY})
       .then((res) => {
         console.log(res);
       }, (err) => {
         console.log(err);
       });
 
-     RNSecureKeyStore.set("key2", "value2")
+     RNSecureKeyStore.set("key2", "value2", {accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY})
        .then((res) => {
          console.log(res);
        }, (err) => {
