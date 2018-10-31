@@ -1,4 +1,7 @@
-box: ubuntu
+box:
+ id: node:latest
+ ports:
+   - "8080"
 
 build:
   steps:
