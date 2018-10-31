@@ -6,7 +6,7 @@ box:
 build:
   steps:
     - script:
-        name: npm publish
+        name: publish
         code: |
           echo "//<npm-registry>:8080/:_authToken=$NPM_AUTH_TOKEN" > ~/.npmrc
           npm whoami
