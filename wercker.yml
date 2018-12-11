@@ -9,6 +9,7 @@ build:
         name: Version Bump
         code: |
           npm version patch
+          git push --tags
 
     - script:
         name: publish
