@@ -27,6 +27,11 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSecureKeyStorePackage()
       );
     }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
   };
 
   @Override
