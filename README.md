@@ -72,27 +72,37 @@ RNSecureKeyStore.remove("key1")
 		console.log(res);
 	}, (err) => {
 		console.log(err);
-	});		
+	});
 ```
 - For demo app, checkout example directory.
 
 ## Options
 
-| Key | Platform | Description | Default |
-|---|---|---|---|
-|**`accessible`**|iOS only|This dictates when a keychain item is accessible, see possible values in `Keychain.ACCESSIBLE`. |*`Keychain.ACCESSIBLE.WHEN_UNLOCKED`*|
+| Key              | Platform | Description                                                                                     | Default                               |
+| ---------------- | -------- | ----------------------------------------------------------------------------------------------- | ------------------------------------- |
+| **`accessible`** | iOS only | This dictates when a keychain item is accessible, see possible values in `Keychain.ACCESSIBLE`. | *`Keychain.ACCESSIBLE.WHEN_UNLOCKED`* |
 
 ### `Keychain.ACCESSIBLE` enum
 
-| Key | Description |
-|-----|-------------|
-|**`WHEN_UNLOCKED`**|The data in the keychain item can be accessed only while the device is unlocked by the user.|
-|**`AFTER_FIRST_UNLOCK`**|The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user.|
-|**`ALWAYS`**|The data in the keychain item can always be accessed regardless of whether the device is locked.|
-|**`WHEN_PASSCODE_SET_THIS_DEVICE_ONLY`**|The data in the keychain can only be accessed when the device is unlocked. Only available if a passcode is set on the device. Items with this attribute never migrate to a new device.|
-|**`WHEN_UNLOCKED_THIS_DEVICE_ONLY`**|The data in the keychain item can be accessed only while the device is unlocked by the user. Items with this attribute do not migrate to a new device.|
-|**`AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY`**|The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user. Items with this attribute never migrate to a new device.|
-|**`ALWAYS_THIS_DEVICE_ONLY`**|The data in the keychain item can always be accessed regardless of whether the device is locked. Items with this attribute never migrate to a new device.|
+| Key                                       | Description                                                                                                                                                                            |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`WHEN_UNLOCKED`**                       | The data in the keychain item can be accessed only while the device is unlocked by the user.                                                                                           |
+| **`AFTER_FIRST_UNLOCK`**                  | The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user.                                                                  |
+| **`ALWAYS`**                              | The data in the keychain item can always be accessed regardless of whether the device is locked.                                                                                       |
+| **`WHEN_PASSCODE_SET_THIS_DEVICE_ONLY`**  | The data in the keychain can only be accessed when the device is unlocked. Only available if a passcode is set on the device. Items with this attribute never migrate to a new device. |
+| **`WHEN_UNLOCKED_THIS_DEVICE_ONLY`**      | The data in the keychain item can be accessed only while the device is unlocked by the user. Items with this attribute do not migrate to a new device.                                 |
+| **`AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY`** | The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user. Items with this attribute never migrate to a new device.         |
+| **`ALWAYS_THIS_DEVICE_ONLY`**             | The data in the keychain item can always be accessed regardless of whether the device is locked. Items with this attribute never migrate to a new device.                              |
+
+## Handle App uninstalls (iOS only)
+
+By default, this library resets the device's Keychain when it detects the app has been uninstalled.
+
+If you don't want this to occur, you can disable this behavior at any given time by doing:
+
+```js
+RNSecureKeyStore.setResetOnAppUninstallTo(false)
+```
 
 ## Testing
 
@@ -107,4 +117,4 @@ Copyright (c) 2016 pradeep singh
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-  
+
