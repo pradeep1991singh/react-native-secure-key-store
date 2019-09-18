@@ -27,7 +27,7 @@ import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Calendar;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import com.facebook.react.bridge.ReadableMap;
 
 import javax.crypto.Cipher;
