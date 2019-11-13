@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Log;
+import java.util.Locale;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -65,6 +66,8 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
   }
 
   private PublicKey getOrCreatePublicKey(String alias) throws GeneralSecurityException, IOException {
+    Locale currentLocale = Locale.getDefault();
+    Locale.setDefault(Locale.ENGLISH);
     KeyStore keyStore = KeyStore.getInstance(getKeyStore());
     keyStore.load(null);
 
@@ -86,6 +89,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
       generator.initialize(spec);
       generator.generateKeyPair();
 
+      Locale.setDefault(currentLocale);
       Log.i(Constants.TAG, "created new asymmetric keys for alias");
     }
 
