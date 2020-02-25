@@ -74,7 +74,7 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
 }
 
 - (BOOL)createKeychainValue:(NSString *)value forIdentifier:(NSString *)identifier options: (NSDictionary * __nullable)options {
-    CFStringRef accessible = accessibleValue(options);
+    CFStringRef accessible = accessibleVal(options);
     NSMutableDictionary *dictionary = [self newSearchDictionary:identifier];
     
     NSData *valueData = [value dataUsingEncoding:NSUTF8StringEncoding];
@@ -91,7 +91,7 @@ static NSString *serviceName = @"RNSecureKeyStoreKeyChain";
 
 - (BOOL)updateKeychainValue:(NSString *)password forIdentifier:(NSString *)identifier options:(NSDictionary * __nullable)options {
     
-    CFStringRef accessible = accessibleValue(options);
+    CFStringRef accessible = accessibleVal(options);
     NSMutableDictionary *searchDictionary = [self newSearchDictionary:identifier];
     NSMutableDictionary *updateDictionary = [[NSMutableDictionary alloc] init];
     NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
@@ -214,7 +214,7 @@ RCT_EXPORT_METHOD(remove:(NSString *)key
     }
 }
 
-CFStringRef accessibleValue(NSDictionary *options)
+CFStringRef accessibleVal(NSDictionary *options)
 {
     if (options && options[@"accessible"] != nil) {
         NSDictionary *keyMap = @{
