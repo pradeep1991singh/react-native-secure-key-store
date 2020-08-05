@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "16.6.3",
     "react-native": "0.58.1",
-    "react-native-secure-key-store": "../../react-native-secure-key-store"
+    "react-native-secure-key-store": "file:.."
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
