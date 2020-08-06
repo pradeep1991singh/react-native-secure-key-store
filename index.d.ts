@@ -13,7 +13,7 @@ declare module 'react-native-secure-key-store' {
 
   interface RNSecureKeyStore {
     get: (key: string) => Promise<any>
-    set: (key: string, value: string, accessible?: ACCESSIBLE) => Promise<any>
+    set: (key: string, value: string, options?: { accessible?: ACCESSIBLE }) => Promise<any>
     remove: (key: string) => Promise<any>
     setResetOnAppUninstallTo: (enabled: boolean) => boolean
   }
