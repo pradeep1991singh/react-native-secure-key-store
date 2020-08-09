@@ -194,7 +194,7 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
     return new SecretKeySpec(decryptRsaCipherText(getPrivateKey(alias), cipherTextBytes), Constants.AES_ALGORITHM);
   }
 
-  private String getPlainText(String alias) throws GeneralSecurityException, IOException {
+  public String getPlainText(String alias) throws GeneralSecurityException, IOException {
     SecretKey secretKey = getSymmetricKey(alias);
     byte[] cipherTextBytes = Storage.readValues(getContext(), Constants.SKS_DATA_FILENAME + alias);
     return new String(decryptAesCipherText(secretKey, cipherTextBytes), "UTF-8");
