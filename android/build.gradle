@@ -10,6 +10,10 @@ buildscript {
     if (project == rootProject) {
         repositories {
             google()
+            mavenCentral()
+            // JCenter is going read-only repository indefinitely
+            // Gradle is discouraging jcenter to avoid to avoid build issues - pipeline
+            // ref: https://blog.gradle.org/jcenter-shutdown
             jcenter()
         }
 
@@ -38,8 +42,8 @@ android {
 
 repositories {
     google()
-    jcenter()
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
