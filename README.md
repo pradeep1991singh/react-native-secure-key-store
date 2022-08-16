@@ -14,12 +14,6 @@ or
 $ yarn add react-native-secure-key-store
 ```
 
-### Mostly automatic installation
-
-```sh
-$ react-native link react-native-secure-key-store
-```
-
 ### Manual installation
 
 
