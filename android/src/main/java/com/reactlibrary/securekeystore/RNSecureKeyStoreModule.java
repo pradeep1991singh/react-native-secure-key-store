@@ -12,7 +12,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKeys;
+import androidx.security.crypto.MasterKey;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -51,9 +51,12 @@ public class RNSecureKeyStoreModule extends ReactContextBaseJavaModule {
   }
 
   private SharedPreferences getSecureSharedPreferences() throws GeneralSecurityException, IOException {
+    String masterKeyAlias = MasterKey.DEFAULT_ALIAS;
     return EncryptedSharedPreferences.create(
       "secret_shared_prefs",
-      MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+      new MasterKey.Builder(reactContext, masterKeyAlias)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build(),
       reactContext,
       EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
       EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
